@@ -1,0 +1,408 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     13124,        400]
+NotebookOptionsPosition[     10412,        348]
+NotebookOutlinePosition[     10852,        364]
+CellTagsIndexPosition[     10809,        361]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["The Three - Stop Taxi", "Title",
+ CellChangeTimes->{{3.8333067430326357`*^9, 
+  3.8333067589281855`*^9}},ExpressionUUID->"3e7e1a1a-ec87-4238-ba5e-\
+a2758d3e1b2e"],
+
+Cell["by Austin Pesina", "Subtitle",
+ CellChangeTimes->{{3.8333067614409266`*^9, 
+  3.833306769568075*^9}},ExpressionUUID->"1df9ae75-5d9c-4379-b024-\
+5af6df626761"],
+
+Cell[CellGroupData[{
+
+Cell["1. The Process", "Section",
+ CellChangeTimes->{{3.833306779080964*^9, 
+  3.833306784839944*^9}},ExpressionUUID->"749b8225-6dba-4a72-8aac-\
+7471e582ae76"],
+
+Cell[TextData[{
+ "A taxi alternates among three different locations, cleverly labeled 1, 2, \
+and 3. Whenever it reaches location ",
+ StyleBox["i",
+  FontSlant->"Italic"],
+ ", it stops and spends a random amount of time having mean ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["t", "i"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "34f82d7d-8b0b-4053-b573-6a2360d70a60"],
+ " before obtaining another passenger. A passenger entering the cab at \
+location ",
+ StyleBox["i",
+  FontSlant->"Italic"],
+ " will want to go to location ",
+ StyleBox["j",
+  FontSlant->"Italic"],
+ " with probability ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["P", "ij"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "246ec035-3b50-459b-89db-981dc4784468"],
+ ". The time to travel from ",
+ StyleBox["i",
+  FontSlant->"Italic"],
+ " to ",
+ StyleBox["j",
+  FontSlant->"Italic"],
+ " is a random variable with mean ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["m", "ij"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "aa904fcf-04e5-4dbe-9115-133993d652d1"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.833306792552431*^9, 
+  3.833306911854415*^9}},ExpressionUUID->"c1010e56-0f2d-4d94-84ee-\
+cf72908ff290"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. Questions", "Section",
+ CellChangeTimes->{{3.833306922188753*^9, 
+  3.833306926838496*^9}},ExpressionUUID->"f4d5a00f-3ea2-49b9-9b21-\
+c5bc5c1d1b5a"],
+
+Cell["Suppose that:", "Text",
+ CellChangeTimes->{{3.8333069306734257`*^9, 
+  3.833306942231154*^9}},ExpressionUUID->"100a7088-bf4e-48a3-afb8-\
+fecf72c3e4be"],
+
+Cell[BoxData[{
+ RowBox[{
+  SubscriptBox["t", "1"], "=", 
+  RowBox[{
+   RowBox[{"1", "                ", 
+    SubscriptBox["t", "2"]}], "=", 
+   RowBox[{
+    RowBox[{"2", "            ", 
+     SubscriptBox["t", "3"]}], "=", "4"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  SubscriptBox["P", "12"], "=", 
+  RowBox[{
+   RowBox[{"1", "              ", 
+    SubscriptBox["P", "23"]}], "=", 
+   RowBox[{
+    RowBox[{"1", "           ", 
+     SubscriptBox["P", "31"]}], "=", 
+    RowBox[{
+     RowBox[{"2", "/", "3"}], "=", 
+     RowBox[{"1", "-", 
+      SubscriptBox["P", "32"]}]}]}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  SubscriptBox["m", "12"], "=", 
+  RowBox[{
+   RowBox[{"10", "            ", 
+    SubscriptBox["m", "23"]}], "=", 
+   RowBox[{
+    RowBox[{"20", "         ", 
+     SubscriptBox["m", "31"]}], "=", 
+    RowBox[{
+     RowBox[{"15", "          ", 
+      SubscriptBox["m", "32"]}], "=", "25"}]}]}]}]}], "Input",
+ CellChangeTimes->{{3.833306943625064*^9, 3.833307104461594*^9}, {
+  3.8333075045349903`*^9, 3.833307559583253*^9}, {3.83330845522714*^9, 
+  3.8333084638011208`*^9}},ExpressionUUID->"40cf4495-0f6a-4240-8910-\
+fe137baf835a"],
+
+Cell["Define an appropriate semi-Markov model and determine:", "Text",
+ CellChangeTimes->{{3.8333071063818016`*^9, 
+  3.8333071718605275`*^9}},ExpressionUUID->"df580192-de52-47bd-8947-\
+a9b6925b2229"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[ScriptCapitalT]", "=", 
+   RowBox[{"(", GridBox[{
+      {"0", 
+       RowBox[{"1", "/", "2"}], 
+       RowBox[{"1", "/", "2"}]},
+      {
+       RowBox[{"1", "/", "3"}], "0", 
+       RowBox[{"2", "/", "3"}]},
+      {"1", "0", "0"}
+     }], ")"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.8333088227209234`*^9, 3.8333088287832146`*^9}, {
+  3.833308862295082*^9, 3.833308874494858*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"7116ba08-c81e-47d2-9bc2-097723991cca"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[ScriptCapitalS]", "=", 
+   RowBox[{"DiscreteMarkovProcess", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"1", "/", "3"}], ",", " ", 
+       RowBox[{"1", "/", "3"}], ",", " ", 
+       RowBox[{"1", "/", "3"}]}], "}"}], ",", "\[ScriptCapitalT]"}], "]"}]}], 
+  ";"}]], "Input",
+ CellLabel->"In[2]:=",ExpressionUUID->"3e7d8d30-2547-4623-a7ea-234f6c8f2395"],
+
+Cell["1) the proportion of time the tax is waiting at location i", "Text",
+ CellChangeTimes->{{3.8333071738790436`*^9, 
+  3.8333071761177893`*^9}},ExpressionUUID->"8d70171e-ca6a-4fe4-bd33-\
+753ab4c04f13"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"StationaryDistribution", "[", "\[ScriptCapitalS]", "]"}]], "Input",
+ CellLabel->"In[6]:=",ExpressionUUID->"67c96961-f200-4325-b742-81c581588f20"],
+
+Cell[BoxData[
+ RowBox[{"ProbabilityDistribution", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     FractionBox["3", "7"], " ", 
+     RowBox[{"Boole", "[", 
+      RowBox[{"\[FormalX]", "\[Equal]", "1"}], "]"}]}], "+", 
+    RowBox[{
+     FractionBox["3", "14"], " ", 
+     RowBox[{"Boole", "[", 
+      RowBox[{"\[FormalX]", "\[Equal]", "2"}], "]"}]}], "+", 
+    RowBox[{
+     FractionBox["5", "14"], " ", 
+     RowBox[{"Boole", "[", 
+      RowBox[{"\[FormalX]", "\[Equal]", "3"}], "]"}]}]}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[FormalX]", ",", "1", ",", "3", ",", "1"}], "}"}]}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.833309114444962*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"69d0071b-6308-4ce0-a45e-1c026ab55165"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[Pi]s", "=", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"PDF", "[", 
+     RowBox[{
+      RowBox[{"StationaryDistribution", "[", "\[ScriptCapitalS]", "]"}], ",", 
+      "i"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", "3"}], "}"}]}], "]"}]}]], "Input",
+ CellLabel->"In[7]:=",ExpressionUUID->"3bc913e2-44e1-4433-97fc-3b38a7097b3e"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   FractionBox["3", "7"], ",", 
+   FractionBox["3", "14"], ",", 
+   FractionBox["5", "14"]}], "}"}]], "Output",
+ CellChangeTimes->{3.833309135098576*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"69c45cc8-e8a2-42c3-9481-88b06d2fce27"]
+}, Open  ]],
+
+Cell[TextData[{
+ "2) the proportion of time the taxi is on the road for ",
+ StyleBox["i",
+  FontSlant->"Italic"],
+ " to ",
+ StyleBox["j",
+  FontSlant->"Italic"],
+ ", ",
+ StyleBox["i,j=1,2,3",
+  FontSlant->"Italic"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.833307162474883*^9, 
+  3.8333072016870136`*^9}},ExpressionUUID->"a58ac304-a74e-4fb8-95d0-\
+2cbfab0a0480"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[Mu]", "=", 
+  RowBox[{"{", 
+   RowBox[{"\[Mu]1", ",", " ", "\[Mu]2", ",", " ", "\[Mu]3"}], 
+   "}"}]}]], "Input",
+ CellLabel->"In[8]:=",ExpressionUUID->"25ad2f23-b431-4e3f-b6a3-1786cfe15bbe"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\[Mu]1", ",", "\[Mu]2", ",", "\[Mu]3"}], "}"}]], "Output",
+ CellChangeTimes->{3.8333091892854624`*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"aceffb9c-5696-492a-ba97-ddec2e1132ab"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"P", "=", 
+  RowBox[{"Simplify", "[", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     FractionBox[
+      RowBox[{
+       RowBox[{"\[Pi]s", "[", 
+        RowBox[{"[", "i", "]"}], "]"}], 
+       RowBox[{"\[Mu]", "[", 
+        RowBox[{"[", "i", "]"}], "]"}]}], 
+      RowBox[{"\[Pi]s", ".", "\[Mu]"}]], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", "3"}], "}"}]}], "]"}], "]"}]}]], "Input",
+ CellLabel->"In[9]:=",ExpressionUUID->"0a0a26f4-6f67-4192-8e6e-eb9303868495"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   FractionBox[
+    RowBox[{"6", " ", "\[Mu]1"}], 
+    RowBox[{
+     RowBox[{"6", " ", "\[Mu]1"}], "+", 
+     RowBox[{"3", " ", "\[Mu]2"}], "+", 
+     RowBox[{"5", " ", "\[Mu]3"}]}]], ",", 
+   FractionBox[
+    RowBox[{"3", " ", "\[Mu]2"}], 
+    RowBox[{
+     RowBox[{"6", " ", "\[Mu]1"}], "+", 
+     RowBox[{"3", " ", "\[Mu]2"}], "+", 
+     RowBox[{"5", " ", "\[Mu]3"}]}]], ",", 
+   FractionBox[
+    RowBox[{"5", " ", "\[Mu]3"}], 
+    RowBox[{
+     RowBox[{"6", " ", "\[Mu]1"}], "+", 
+     RowBox[{"3", " ", "\[Mu]2"}], "+", 
+     RowBox[{"5", " ", "\[Mu]3"}]}]]}], "}"}]], "Output",
+ CellChangeTimes->{3.833309212136582*^9},
+ CellLabel->"Out[9]=",ExpressionUUID->"11853983-b58c-44bd-82d0-252cf6d756d1"]
+}, Open  ]],
+
+Cell[TextData[{
+ "If ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Micro]", "1"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "3531fbc3-ba87-4c64-a2f6-0e9396d6dbfa"],
+ "=6, ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Micro]", "2"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "f15be514-1cf2-4b8b-994b-94091d34481a"],
+ "=3, and ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Micro]", "3"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "a3dc7403-5fa0-410f-a16b-e1d256776ce1"],
+ "=5, then the proportion of times in each state would be:"
+}], "Text",
+ CellChangeTimes->{{3.8333092427988987`*^9, 3.833309254499004*^9}, {
+  3.8333093489064455`*^9, 
+  3.8333094410753546`*^9}},ExpressionUUID->"55aa3385-b451-4def-88ad-\
+70b4f1e373dd"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"P", "/.", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"\[Mu]1", "->", "6"}], ",", 
+    RowBox[{"\[Mu]2", "->", "3"}], ",", 
+    RowBox[{"\[Mu]3", "->", "5"}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.8333094474549255`*^9, 3.8333094657368374`*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"a5b2f026-e64c-4059-8157-62df56317bee"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   FractionBox["18", "35"], ",", 
+   FractionBox["9", "70"], ",", 
+   FractionBox["5", "14"]}], "}"}]], "Output",
+ CellChangeTimes->{3.8333094662532597`*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"bd8400d8-d42f-4b51-bb66-67fad69de386"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{585.4285714285714, 714.4285714285713},
+WindowMargins->{{Automatic, -4.714285714285779}, {Automatic, 0}},
+FrontEndVersion->"12.3 for Microsoft Windows (64-bit) (May 11, 2021)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"0bb02543-c81a-41be-a2e1-6dec32d595a9"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 168, 3, 98, "Title",ExpressionUUID->"3e7e1a1a-ec87-4238-ba5e-a2758d3e1b2e"],
+Cell[751, 27, 164, 3, 53, "Subtitle",ExpressionUUID->"1df9ae75-5d9c-4379-b024-5af6df626761"],
+Cell[CellGroupData[{
+Cell[940, 34, 159, 3, 67, "Section",ExpressionUUID->"749b8225-6dba-4a72-8aac-7471e582ae76"],
+Cell[1102, 39, 1240, 40, 130, "Text",ExpressionUUID->"c1010e56-0f2d-4d94-84ee-cf72908ff290"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2379, 84, 157, 3, 67, "Section",ExpressionUUID->"f4d5a00f-3ea2-49b9-9b21-c5bc5c1d1b5a"],
+Cell[2539, 89, 157, 3, 35, "Text",ExpressionUUID->"100a7088-bf4e-48a3-afb8-fecf72c3e4be"],
+Cell[2699, 94, 1145, 35, 67, "Input",ExpressionUUID->"40cf4495-0f6a-4240-8910-fe137baf835a"],
+Cell[3847, 131, 200, 3, 35, "Text",ExpressionUUID->"df580192-de52-47bd-8947-a9b6925b2229"],
+Cell[4050, 136, 498, 14, 61, "Input",ExpressionUUID->"7116ba08-c81e-47d2-9bc2-097723991cca"],
+Cell[4551, 152, 411, 11, 28, "Input",ExpressionUUID->"3e7d8d30-2547-4623-a7ea-234f6c8f2395"],
+Cell[4965, 165, 204, 3, 35, "Text",ExpressionUUID->"8d70171e-ca6a-4fe4-bd33-753ab4c04f13"],
+Cell[CellGroupData[{
+Cell[5194, 172, 169, 2, 28, "Input",ExpressionUUID->"67c96961-f200-4325-b742-81c581588f20"],
+Cell[5366, 176, 718, 20, 77, "Output",ExpressionUUID->"69d0071b-6308-4ce0-a45e-1c026ab55165"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6121, 201, 383, 10, 28, "Input",ExpressionUUID->"3bc913e2-44e1-4433-97fc-3b38a7097b3e"],
+Cell[6507, 213, 271, 7, 48, "Output",ExpressionUUID->"69c45cc8-e8a2-42c3-9481-88b06d2fce27"]
+}, Open  ]],
+Cell[6793, 223, 360, 14, 35, "Text",ExpressionUUID->"a58ac304-a74e-4fb8-95d0-2cbfab0a0480"],
+Cell[CellGroupData[{
+Cell[7178, 241, 217, 5, 28, "Input",ExpressionUUID->"25ad2f23-b431-4e3f-b6a3-1786cfe15bbe"],
+Cell[7398, 248, 220, 4, 32, "Output",ExpressionUUID->"aceffb9c-5696-492a-ba97-ddec2e1132ab"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7655, 257, 498, 14, 48, "Input",ExpressionUUID->"0a0a26f4-6f67-4192-8e6e-eb9303868495"],
+Cell[8156, 273, 743, 22, 51, "Output",ExpressionUUID->"11853983-b58c-44bd-82d0-252cf6d756d1"]
+}, Open  ]],
+Cell[8914, 298, 805, 24, 35, "Text",ExpressionUUID->"55aa3385-b451-4def-88ad-70b4f1e373dd"],
+Cell[CellGroupData[{
+Cell[9744, 326, 349, 8, 28, "Input",ExpressionUUID->"a5b2f026-e64c-4059-8157-62df56317bee"],
+Cell[10096, 336, 276, 7, 71, "Output",ExpressionUUID->"bd8400d8-d42f-4b51-bb66-67fad69de386"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

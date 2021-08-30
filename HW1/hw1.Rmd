@@ -1,0 +1,109 @@
+---
+title: "HW_1"
+author: "Austin Pesina"
+date: "6/3/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Homework 1
+
+## 3-32
+
+Independent trials, each resulting in success with probability $p$, are performed.
+
+**(a) Find the expected number of trials needed for there to have been both at least $n$ successes and at least $m$ failures.**  
+
+Let $T$ be the number of trials needed for both at least $n$ successes and $m$ failures. Condition on $N$, the number of successes in the first $n+m$ trials, to obtain  
+
+$E[T]\sum_{i=0}^{n+m}E[T|N=i]{n+1\choose i}p^i(1-p)^{n+m-i}$  
+
+Now use  
+
+$E[T|N=i]=n+m+\frac{n-i}{p}, i \le n$  
+
+$E[T|N=i] = n + m + \frac{i-n}{1-p}, i > n$
+
+
+**(b) Find the expected number of trials needed for there to have been either at least $n$ successes or at least $m$ failures.**
+
+Let $S$ be the number of trials needed for $n$ successes, and let $F$ be the number needed for $m$ failures. Then $T=$max$(S,F)$. Taking expectations of the identity  
+
+min$(S,F)+$ max$(S,F)$  
+
+yields the result  
+
+$E[$min$(S,F)]=\frac{n}{p}+\frac{m}{1-p}-E[T]$
+
+## 3-64
+
+$A$ and $B$ roll a pair of dice in turn, with $A$ rolling first. $A$'s objective is to obtain a sum of 6, and $B$'s is to obtain a sum of 7. The game ends when either player reaches their objective, and that player is declared the winner.
+
+**(a) Find the probability that $A$ is the winner.**
+
+$P(A) = \frac{5}{36}+(\frac{31}{36})(\frac{5}{6})P(A)$
+
+$P(A)=\frac{30}{61}$
+
+**(b) Find the expected number of rolls of the dice.**
+
+$E[X] = \frac{5}{36}+(\frac{31}{36})[1+\frac{1}{6}+(\frac{5}{6})(1+E[X])]$
+
+$E[X] = \frac{402}{61}$
+
+**(c) Find the variance of the number of rolls of the dice.**
+
+Let $Y$ equal 1 if $A$ wins on their first attempt, let it equal 2 if $B$ wins on their first attempt, and let it equal 3 otherwise. Then
+
+$Var(X|Y=1)=0$, $Var(X|Y=2)=0$, $Var(X|Y=3)=Var(X)$
+
+Hence,
+
+$E[Var(X|Y)] =(\frac{155}{216})Var(X)$
+
+Also,
+
+$E[X|Y=1]=1$, $E[X|Y=2]=2$, $E[X|Y=3]=2+E[X]=\frac{524}{61}$
+
+Then,
+
+$Var(E[X|Y])= 1^2(\frac{5}{36}) + 2^2(\frac{31}{216}) + (\frac{524}{61})^2 (\frac{155}{216} - (\frac{402}{61})^2$
+
+$\approx 10.2345$
+
+From the conditional variance formula we see that
+
+$Var(X) \approx z(\frac{155}{216})Var(X)+10.2345$
+
+$\approx 36.24$
+
+## 3-99
+
+Let $N$ be the number of trials until $k$ consecutive successes have occurred, when each trial is independently a success with probability $p$.
+
+**(a) What is $P(N=k)$**
+
+
+
+**(b) Argue that $P(N=k+r)=P(N>r-1)qp^k, r>0$**
+
+$P(N=k+r) = P(N>r-1)qp^k$
+
+$\sum_{r=1}^{\infty}P(N=k+r) = \sum_{r=1}^{\infty}P(N>r-1)qp^k$
+
+Because $N>k$, $\sum_{r=0}^{\infty}P(N=k+r)=1$
+
+**(c) Show that $1-p^k=qp^kE[N]$**
+
+$\sum_{r=1}^{\infty}P(N=k+r)=1-P(N=k)=1-p^k$ (because $N=k$, all first trials give $k$ successes)
+
+$=\sum_{r=1}^{\infty}P(N>r-1)qp^k=E(N)qp^k$
+
+For any non-negative discrete random variable $X$, $E(X)=\sum_{x=0}^{\infty}P(X>x)$
+
+$1-p^k=E(N)qp^k$

@@ -1,0 +1,217 @@
+---
+title: "Exam 1"
+author: "Austin Pesina"
+date: "6/18/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Two in a Row
+
+*Two players take turns shooting at a target, with each shot by player $i$ hitting the target with probability $p_{i}, i=1,2$. Shooting ends when two consecutive shots hit the target. Let $\mu_{i}$ denote the mean number of shots taken when player $i$ shoots first, $i=1,2$.*
+
+Let $q_{i}=1-p_{i},i=1,2$.
+
+$h =$ hit
+
+$m =$ miss
+
+**(a) Find $\mu_{1}$ and $\mu_{2}$.**
+
+$$\begin{aligned} \mu_{1}&=E[N|h]p_{1}+E[N|m]q_{1} \\
+&= p_i(E[N|h,h]p_{2}+E[N|h,m]q_{2})+(1+\mu{2})q_{1} \\
+&=2p_{1}p_{2}+(2+\mu_1)p_{1}q_{2}+(1+\mu_{2})q_{1} \\
+&=\mu_{1}(1-p_{1}q_{2})=1+p_{1}+\mu_{2}q_{1}
+\end{aligned} $$
+
+Similarly,
+
+$$\mu_{2}(1-p_{2}q_{1})=1+p_{2}+\mu_{1}q_{2} $$
+
+**(b) Let $h_{i}$ denote the mean number of times that the target is hit when player $i$ shoots first, $i=1,2$. Find $h_{1}$ and $h_{2}$.**
+
+$$\begin{aligned} h_1&=E[H|h]p_{1}+E[H|m]q_{1} \\
+&=p_{1}(E[H|h,h]p_{2}+E[H|h,m]q_{2})+h_{2}q_{1} \\
+&=2p_{1}p_{2}+(1+h_1)p_{1}q_{2}+h_{2}q_{1}
+\end{aligned}$$
+
+Similarly,
+
+$$\begin{aligned} h_{2}&=2p_{1}p_{2}+1(1+h_{2})p_{2}q_{1}+h_{1}q_{2}
+\end{aligned}$$
+
+By solving these equations, we find $h_{1}$ and $h_{2}$
+
+\newpage
+
+## 2. Varying Claims 
+
+The number of accidents in a month follows a Poisson distribution with mean 12. Each accident generates 1,2, or 3 claimants with probabilities $\frac{1}{2}$, $\frac{1}{3}$, and $\frac{1}{6}$, respectively. 
+
+**Calculate the variance in the total number of claimants.**
+
+```{r}
+n1 <- (12*1/2)
+n2 <- (12*1/3)
+n3 <- (12*1/6)
+
+dist <- c(n1, n2, n3)
+dist
+```
+
+$$\text{Var}(n_{1}+2n_{2}+3n_{3}=\text{Var}(n_{1})+4\text{Var}(n_2)+9\text{Var}(n_{3})$$
+
+```{r}
+dist[1]+4*dist[2]+9*dist[3]
+```
+
+\newpage
+
+## 3. Heavy Training
+
+A coach can give two types of training, "light" or "heavy" to his sports team before a game. If the team wins the prior game, the next training is equally likely to be light or heavy. But, if the team loses the prior game, the next training is always heavy. The probability that the team will win the game is 0.4 after light training and 0.8 after heavy training.
+
+**Calculate the long run proportion of time that the coach will give heavy training to the team.**
+
+```{r}
+library(markovchain)
+```
+
+```{r}
+# Setting up transitional matrix
+
+state <- c("win", "lose")
+transmat <- matrix(c(0.4, 0.6, 0.8, 0.2), nrow = 2, byrow = T)
+row.names(transmat) <- c("light", "heavy")
+colnames(transmat) <- state
+transmat
+
+train_mc <- new("markovchain", transitionMatrix=transmat, states=row.names(transmat), name="Training Markov Chain")
+train_mc
+
+P <- transmat
+P2 <- P%*%P; P2
+P3 <- P2%*%P2; P3
+P4 <- P3%*%P3; P4
+P5 <- P4%*%P4; P5
+```
+
+As we can see,the probability of a win converges to 0.5714288 or $\frac{4}{7}$, meaning the probability of a loss is 0.4285717 or $\frac{3}{7}$. With heavy training guaranteed after a loss, the probability of heavy training is $42.9\%$.
+
+\newpage
+
+## 4. Tom and Huck
+
+Tom and Huck are painting a fence together. Tom and Huck both start painting at the same time, but lazy Huck stops working after $Y$ hours, where the random variable $Y$ is uniform on $(0,1)$. Diligent Tom finishes the job at time $X$, where the conditional distribution of $X$ is uniform on $(Y,1)$.
+
+```{r}
+library(MASS)
+mu_y <- 0.5
+var <- 1/12
+```
+$$\begin{aligned} &\mu_{x|y}=\frac{y+1}{2} \\
+&\sigma_{x|y}^2=\frac{(y-1)^2}{12}=\frac{y^{2}-2y+1}{12}\end{aligned}$$
+
+**(a) What is the expected time that Tom works?**
+
+$$\begin{aligned}E(X)=\mu_{x}&=E(E(x|y)) \\
+&=E\left(\frac{y+1}{2} \right) \\
+&=\frac{1}{2}E(Y)+1 \\
+&=\frac{1}{2}\mu_{y}+1
+\end{aligned}$$
+
+```{r}
+(1/2)*(mu_y+1)
+fractions(0.75)
+```
+
+
+**(b) What is the variance of the time that Tom works?**
+
+$$\begin{aligned} \text{Var}(X)&=E(\text{Var}(X|Y=y))+\text{Var}(E(X|Y=y)) \\
+&=E\left(\frac{y^{2}-2y+1}{12} \right) + \text{Var}\left(\frac{y+1}{2} \right)\\
+&=\frac{1}{12}\left(E(y^{2})-2E(y)+1 \right)+\frac{1}{4}\text{Var}(y) \\
+&=\frac{1}{12}\left(1-2E(y)+E(y^{2}) \right)+\frac{1}{4}\text{Var}(y) \\
+&=\frac{1}{12}\left[1-2*\frac{1}{2}+\left(\frac{1}{12}+\frac{1}{4} \right) \right]+\frac{1}{4}*\frac{1}{12} \\
+\end{aligned}$$
+
+```{r}
+(1/12)*(1-2*(1/2)+((1/12)+1/4))+(1/4)*(1/12)
+fractions(0.04861111)
+```
+
+**(c) If Huck and Tom are paid a total of $10 to do the job, and they split the money according to the length of time each one works, what is the expected amount that Tom gets?**
+
+$$\$10*0.75$$
+
+```{r}
+library(scales)
+Tom <- 10*0.75
+dollar_format(prefix="$")
+dollar(Tom)
+```
+
+\newpage
+
+## 5. The Birthday Problem
+
+Consider $n$ people and suppose that each of them has a birthday that is equally likely to be any of the 365 days of the year. Furthermore, assume that their birthdays are independent, and let $A$ be the event that no two of them share the same birthday. Define a "trial" for each of the $n\choose 2$ pairs of people and say that the trial $(i,j),i\ne j$, is a success if persons $i$ and $j$ have the same birthday. Let $S_{i,j}$ be the event that trial $(i,j)$ is a success.
+
+**(a) Find $Pr(S_{i,j)}, i \ne j)$.**
+
+$$\frac{365*364*363*...(365-n+1)}{365!}$$
+
+**(b) Are $S_{i,j}$ and $S_{k,r}$ independent when $i, j, k, r$ are all distinct?**
+
+Yes, $S_{i,j}$ and $S_{k,r}$ would be independent.
+
+**(c) Are $S_{i,j}$ and $S_{k,j}$ independent when $i,j,k$ are all distinct?**
+
+No, $S_{i,j}$ and $S_{k,j}$ would not be independent because the events are not pairwise independent.
+
+
+**(d) Are $S_{1,2}, S_{1,3},$ and $S_{2,3}$ independent?**
+
+No, $S_{1,2}, S_{1,3}$, and $S_{2,3}$ would not be independent because the events are not pairwise independent.
+
+**(e) Employ the Poisson paradigm to approximate $PR(A)$.**
+
+$$\begin{aligned}\text{Approx. Pois} (\lambda), \lambda&={n\choose 2}\frac{1}{365} \\
+&=\frac{n(n-1)}{2}*\frac{1}{365} \\
+\lambda&=\frac{n(n-1)}{730}
+\end{aligned}$$
+
+
+**(f) Show that this approximation yields $Pr(A)\approx 0.5$, when $n=23$.**
+
+```{r}
+library(pracma)
+```
+
+```{r}
+nchoosek(23,2)
+253/365
+1-exp(-0.6931507)
+```
+
+**(g) Let $B$  be the event that no three people have the same birthday. Approximate the value of $n$ that makes $Pr(B)\approx 0.5$. (Whereas a simple combinatorial argument explicitly determines $Pr(A)$, the exact determination of $Pr(B) is very complicated, so think Poisson.)**
+
+$$A = \text{number of triple matches, Approx. Pois} (\lambda), \lambda={n\choose 3}\frac{1}{365^{2}}$$
+
+Probability of at least 1 triple match:
+$$\begin{aligned}Pr(A \ge 1)=1-Pr(A=0) &\approx1-e^{-\lambda}\frac{\lambda^0}{0!} \\
+&= 1-e^{-\lambda}
+\end{aligned}$$
+
+```{r}
+nchoosek(83,3)
+x <- 91881/(365^2)
+1-exp(-x)
+```
+
+We approximately reach 50% probability around $n=83 (49.83\%)$.

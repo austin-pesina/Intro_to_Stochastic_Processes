@@ -1,0 +1,159 @@
+---
+title: "Homework 3"
+author: "Austin Pesina"
+date: "6/11/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Homework 3#
+
+## 6-4 ##
+
+**Potential customers arrive at single-server station in accordance with a Poisson process with rate $\lambda$. However, if the arrival finds $n$ customers already in the station, then he will enter the system with probability $\alpha_n$. Assuming an exponential service rate $\mu$, set this up as a birth and death process and determine the birth and death rates.**
+
+Let $N(t)$ be the number of customers in the station at time $t$.
+
+$\{N(t), t \ge 0\}$ is a birth and death process with birth rate $\lambda_n=\lambda\alpha_n$ and death rate $\mu_n=\mu$.
+
+\newpage
+
+
+## 6-9 ##
+
+**The birth and death process with parameters $\lambda_n=0$ and $\mu_n=\mu$, $n>0$ is called a pure death process.Find$P_{ij}(t)$.**
+
+Birth rate: $\lambda_n=0$
+
+Death rate: $\mu_n=\mu$, where $n>0$ is a pure death process.
+
+First we find the transition probability, $P_{ij}(t)$ for the continuous Markov chain. $P_{ij}(t)$ is the death rate, $\mu_n=\mu$. The number of deaths in any interval of length $t$ follows a Poisson process with mean $\mu t$ until the system empties.
+
+Therefore, $P_{ij}(t)$ is the probability of a Poisson distribution that assumes the value $(i-j)$ for $i>j$. This gives $(i-j)$ events for the interval of length $t$. The PMF of a Poisson distribution is as follows:
+
+$$P_{ij}(t)=\frac{e^{-\mu t}(\mu t)^{i-j}}{(i-j)!} ;0<j\le i$$
+
+When $j=0$,
+
+$$\begin{aligned} &\sum_{j=0}^{i}P_{i,j}(t)=1 \\
+P_{i,0}(t)+&\sum_{j=1}^{i}P_{i,j}(t)=1 \end{aligned}$$
+
+$P_{i,0}(t)+\sum_{j=1}^{i}P_{i,j}(t)=1$ can be re-written as:
+
+$$\begin{aligned} P_{i,0}(t)&=1-\sum_{j=1}^{i}P_{i,j}(t) \\
+&=1-\sum_{j=1}^{i}\frac{e^{-\mu t}(\mu t)^{i-j}}{(i-j)!} \\
+&=1-\sum_{j=1}^{i}\frac{e^{-\mu t}(\mu t)^k}{k!};k=i-j\\
+&=\sum_{k=1}^{\infty}\frac{e^{-\mu t}(\mu t)^k}{k!} \end{aligned}$$
+
+\newpage
+
+
+## 6-18 ##
+
+*After being repaired, a machine function for an exponential time with rate $\lambda$ and then fails. Upon failure, a repair process begins. The repair process proceeds sequentially through $k$ distinct phases. First a phase 1 repair must be performed, then a phase 2, and so on. The times to complete these phases are independent with phase $i$ taking an exponential time with rate $\mu_i, i=1,...,k$.*
+
+Let the process have $k+1$ states.
+
+State 0: THe machine is working.
+
+State 1: The machien is undergoing repair phase 1.
+
+...
+
+
+State $k$: The Machine is undergoing repair phase $k$.
+
+This is a birth and death process with parameters:
+
+$\begin{array}{rrr} v_0=\lambda & q_{01}=\lambda \\ v_i=\mu_i, i>0 & q_{i,j+1}=\mu_i, 1<i<k \\ &q_{k0}=\mu_k\end{array}$
+
+We can stae the equations of balance of the process as
+
+$$v_jP_j=\sum_{k \ne j}q_{kq}P_k$$
+
+$$\begin{aligned}\text{State} && \text{Rate At Which Leave} &&= &&\text{Rate At Which Enter} \\
+0 && \lambda P_0 &&= &&\mu_kP_k \\
+1 &&\mu_1P_1 &&= && \lambda P_0 \\
+i && \mu_iP_i &&= && \mu_{i-1}P_{i-1}, &&1<i<k\end{aligned}$$
+
+Solving in terms of $P_0$ we get:
+
+$$\begin{aligned}&P_k=\frac{\lambda}{\mu_k}P_0 && P_i=\frac{\mu_{i-1}}{\mu_{i}}P_{i-1} \\
+&P_1=\frac{\lambda}{\mu_1}P_0 && =\frac{\mu_{i-1}}{\mu_{i}} \frac{\mu_{i-2}}{\mu_{i-1}}P_{i-2}   \\
+&P_2=\frac{\lambda}{\mu_2}P_1 && =\frac{\mu_{i-1}}{\mu_{i}} \frac{\mu_{i-2}}{\mu_{i-1}}...\frac{\lambda}{\mu_{1}}P_{0} \\
+&=\frac{\lambda}{\mu_2}P_0 &&=\frac{\lambda}{\mu_{1}}P_{0}, &1<i<k \end{aligned}$$
+
+Because $P_{i}=\frac{\lambda}{\mu_1}P_{0}, 1 \le k$ and using $\sum_{i=0}^{k}P_{i}=1$, we have:
+
+$$1=P_{0}+\left(\frac{\lambda}{\mu_1}+...+\frac{\lambda}{\mu_k}\right)P_{0} \\
+P_{0}=\frac{1}{\left(1+\lambda\sum_{i=1}^{k}\frac{1}{\mu_{i}}\right)}$$
+
+
+**(a) What proportion of time is the machine undergoing a phase $i$ repair?**
+
+From the above,
+
+$$P_i=\frac{\lambda}{\mu_i}\frac{1}{\left(1+\lambda\sum_{i=1}^{k}\frac{1}{\mu_i}\right)}$$
+
+**(b) What proportion of time is the machine working?**
+
+$$P_0=\frac{1}{\left(1+\lambda\sum_{i=1}^{k}\frac{1}{\mu_i}\right)} $$
+
+\newpage
+
+
+## 7-12 ##
+
+*Events occur according to a Poisson process with rate $\lambda$. Any event that occurs within a time $d$ of the event that immediately proceed it is called a $d$-event. FOr instance, if $d=1$ and events occur at times $2,2,8,4,6,6,6...$, then the events at times 2.8 and 6.6 would be d-events.*
+
+Let $X$ be the time between successive $d$-events. Conditioning on $T$, the time until the next event following a $d$-event gives:
+
+$$\begin{aligned}E[X]&=\int_{0}^{d}x\lambda e^{-\lambda x}dx + \int_{d}^{\infty}x+E[X]\lambda e^{-\lambda x}dx \\
+&=\frac{1}{\lambda}+E[X]e^{-\lambda d} \\
+E[X]&=\frac{1}{\lambda (1-e^{-\lambda d})}\end{aligned}$$
+
+**(a) At what rate do $d$-events occur?**
+
+$$\frac{1}{E[X]}=\lambda\left(1-e^{-\lambda d} \right)$$
+
+**(b) What proportion of all events are $d$-events?**
+
+$$1-e^{-\lambda d}$$
+
+\newpage
+
+
+## 7-23 ##
+
+In a serve and rally competition involving players A and B, each rally that begins with a serve by player A is won by player A with probability $p_a$ and is won by player B with probability $q_a=1-p_a$, whereas each rally that begins with a serve by player B is won by player A with the probability $p_b$ and is won by player B with probability $q_b=1-p_b$. The winner of the rally earns a point and becomes the server of the next rally.
+
+
+**(a) In the long run, what proportion of points are won by A?**
+
+If a new cycle begins each time that A wins, with N equal to the number of points in a cycle,
+
+$$E[N]=1+\frac{q_{a}}{p_{b}}$$
+
+When starting with B serving, the number of the points played until A wins is a geometric with parameter $p_{b}$, therefore the proportion of points won by A is:
+
+$$\frac{1}{E[N]}=\frac{p_{b}}{p_{b}+q_{a}}$$
+
+**(b) What proportion of points are won by A if the protocol is that the players alternate service? That is, if the service protocol is that A serves for the first point, then B for the second, then A for the third point, and so on.**
+
+$$\frac{(p_{a}+p_{b})}{2}$$
+
+**(c) GIve the condition under which A wins a higher percentage of points under the winner serves protocol than under  the alternating service protocol.**
+
+$$\frac{p_{b}}{p_{b}+q_{a}} > \frac{(p_{a}+p_{b})}{2}$$
+
+This is equivalent to:
+
+$$\begin{aligned} p_{a}q_{a} > p_{b}q_{b} \\
+\frac{A(t)}{t} &= \frac{t-S_{N(t)}}{t} \\
+&= \frac{1-S_{N(t)}}{t} \\
+&= \frac{1-S_{N(t)}}{N(t)} \frac{N(t)}{t} \end{aligned}$$
+
+\newpage

@@ -1,0 +1,113 @@
+---
+title: "HW_5"
+author: "Austin Pesina"
+date: "`r format(Sys.time(), '%m/%d/%Y')`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 9-2
+
+Show that
+
+**(a) if $\phi(0,0,...,0)=0$ and $\phi(1,1,...,1)=1$ then $\text{min } x_{i} \le \phi(\vec{x}) \le \text{max }x_{i}$**
+
+$$\\$$
+
+$$\begin{aligned}&\phi(\vec{x}) \le \text{max }\vec{x}_i \text{ with state vector } \vec{x}=(x_{1},...,x_{n}) \\
+&x_{i}=0 \text{ for some i }, i=1,...,n, \text{ or } x_{i}=1 \text{ for all i.} \\
+&\text{If } x_{i}=0 \text{ for some i, min } x_{i}=0 \therefore \text{min }x_{i}\le \phi(\vec{x}) \\
+&\text{If } x_{i}=1 \text{ for all i, } i=1,...,n \text{, that is } \vec{x}=(1,...,1) \text{ then min }x_{i}=1 \text{ and } \phi(\vec{x}=1) \therefore \text{ min }x_i \le \phi(\vec{x})\\
+\\
+\\
+&\phi\vec{x}\le \text{max }x_{i} \text{ with state vector } \vec{x}=(x_{1},...,x_{n}) \\
+&x_{i}=1 \text{ for some i }, i=1,...,n, \text{ or } x_{i}=0 \text{ for all i, } i=1,...,n. \\
+&\text{If } x_{i}=1 \text{ for some i, max } x_{i}=0 \text{ and } \phi(\vec{x}) =0 \therefore \phi(\vec{x}) \le \text{ max }x_{i} \\
+\\
+&\text{Thus, min }x_{i} \le \phi\vec{x} \le \text{max } x_{i} 
+\end{aligned}$$ 
+
+**(b) $\phi(\text{max }(\vec{x},\vec{y})) \ge \text{max }(\phi(\vec{x}),\phi(\vec{y}))$**
+
+$$\begin{aligned}&\text{max }(\vec{x},\vec{y}) \ge \vec{x} \text{ and max }(\vec{x},\vec{y}) \ge \vec{y} \\
+&\text{Because }\phi(\vec{x}) \text{ is an increasing function, } \\
+&\phi(\text{max }(\vec{x},\vec{y})) \ge \phi(\vec{x}) \text{ and } \phi(\text{max }(\vec{x},\vec{y})) \ge \phi(\vec{y}) \\
+&\therefore \phi (\text{max}(\vec{x},\vec{y})) \ge \text{max}(\phi(\vec{x}),\phi(\vec{y}))
+\end{aligned}$$
+
+**(c) $\phi(\text{min }(\vec{x},\vec{y})) \le \text{min }(\phi(\vec{x}),\phi(\vec{y}))$**
+
+$$\begin{aligned}&\text{min }(\vec{x},\vec{y}) \le \vec{x} \text{ and min }(\vec{x},\vec{y}) \le \vec{y} \\
+&\text{Because }\phi(\vec{x}) \text{ is an increasing function, } \\
+&\phi(\text{min }(\vec{x},\vec{y})) \le \phi(\vec{x}) \text{ and } \phi(\text{min }(\vec{x},\vec{y})) \le \phi(\vec{y}) \\
+&\therefore \phi (\text{min}(\vec{x},\vec{y}) \le \text{min}(\phi(\vec{x}),\phi(\vec{y}))
+\end{aligned}$$
+
+\newpage
+
+## 9-13
+
+Let $r(\vec{p})$ be the reliability function.
+
+**Show that**
+
+$$r(\vec{p})=p_{i}r(1_{i},\vec{p})+(1-p_{i})r(0_{i},\vec{p})\\
+\\$$
+
+$$\begin{aligned}r(p)&=E[\phi(X)] \\
+&=p_{i}\{E\phi(X)|X_{i}=1\}+(1-p_{i})E(\phi(X)|X_{i}=0) \\
+&=p_{i}E[\phi(1_{i},X)]+(1-p_{i})E[\phi(o_{i},X)] \\
+r(p)&=p_{i}[r(1_{i},p)+(1-p_{i}\{(o_{i},p)\})] \\
+\therefore r(p)&=p_{i}[r(1_{i},p)]+(1-p_{i})\{o_{i},p\}
+\end{aligned}$$
+
+\newpage
+
+
+## 9-23
+
+Show that if each (independent) component of a series system has an IFR distribution, then the system lifetime is itself IFR by
+
+**(a) showing that**
+
+$$\lambda_{F}(t)=\sum_{i}\lambda_{i}(t)$$
+
+**where $\lambda_{F}(t)$ is the failure rate function of the system; and $\lambda_{i}(t)$ the failure rate function fo the lifetime of component $i$.**
+
+$$\begin{aligned}\bar{F}(t)&=\Pi_{i}\bar{F}_{i}(t) \\
+F(t)&=1-\Pi_{i}(1-F_{i}(t)) \\
+&=1-(1-F_{1}(t))(1-F_{2}(t))...(1-F_{n}(t)) \\
+\text{where }F_{i}&\text{ is the lifetime distribution of the }i\text{th component} \\
+\\
+&\text{Taking the derivatives of boths sides, we get} \\
+F'(t)&=F_{1}'(t)(1-F_{2}(t))...(1-F_{n}(t))  \\
+&+F_{2}'(t)(1-F_{1}(t))...(1-F_{n}(t))+ \\
+&...+F_{n}'(t)(1-F_{1}(t))(1-F_{2}(t))...(1-F_{n-1}(t)) \\
+&=\sum_{i}F_{i}'(t)\Pi_{j\ne i}(1-F_{j}(t)) \\
+\\
+&\text{The system failure rate function is given by:} \\
+\lambda_{F}(t)&=\frac{F'(t)}{1-F(t)} \\
+&=\frac{\sum_{i}F_{i}'(t)\Pi_{j \ne 1}(1-F_{j}(t))}{\Pi_{i}(1-F_{i}(t))} \\
+&=\frac{F_{1}'(t)}{1-F_{1}(t)} + \frac{F_{2}'(t)}{1-F_{2}(t)} + \frac{F_{3}'(t)}{1-F_{3}(t)} + ... + \frac{F_{n}'(t)}{1-F_{n}(t)} \\
+&=\sum_{i}\frac{F_{i}'(t)}{1-F_{i}(t)} \\
+&=\sum_{i}\lambda_{i}(t)
+\end{aligned}$$
+
+**(b) Using the definition of IFR given in Exercise 22.**
+
+If each $F_{i}$ is an IFR, then $\bar{F}_{it}(a)$ is a decreasing function in $t$. $\bar{F}_{t}(a)$ is the probability that a $t$-year old system surives additional time $t$.
+
+$$\begin{aligned}\bar{F}_{t}(a)&=\frac{\bar{F}(t+a)}{\bar{F}(t)}  \\
+&=\frac{\Pi_{i}\bar{F}_{i}(t+a)}{\Pi_{i}\bar{F}_{i}(t)} \\
+&=\Pi_{i}\frac{\bar{F}_{i}(t+a)}{\bar{F}_{i}(t)} \\
+&=\Pi_{i}\bar{F}_{it}(a)
+\end{aligned}$$
+
+
+
+

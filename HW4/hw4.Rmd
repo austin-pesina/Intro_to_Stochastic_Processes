@@ -1,0 +1,140 @@
+---
+title: "HW_4"
+author: "Austin Pesina"
+date: "6/21/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Homework 4
+
+## 8-9
+
+A groupd of $n$ customers moves around among two servers. Upon completion of service, the served customer then joins the queue (or enters service if the server is free) at the the other server. All service times are exponential with rate $\mu$. 
+
+**Find the proportion of time that there are $j$ customers at server 1, $j=0,...,n$.**
+
+Suppose that the state is considered to be the number of customers at the server 1. Then, the balances equation becomes:
+
+$$\begin{aligned}\mu P_{0} &= \mu P_{1} \\
+2\mu P_{j} &= \mu P_{j+1}+\mu P_{j-1}; &1\le j \le n \\
+\mu P_{n} &= \mu P_{n-1} \\
+\sum_{j=0}^{n} P_{j}=1
+\end{aligned}$$
+
+The first balance equation  results in 
+
+$$\begin{aligned}\mu P_{0} &= \mu P_{1} \\
+P_{0} &= P_{1}
+\end{aligned}$$
+
+For the second balance equation where $j=1$:
+
+$$\begin{aligned}2\mu P_{1} &= \mu P_{1+1} + \mu P_{1-1} \\
+2\mu P_{1} &= \mu P_{2}+\mu P_{0} \\
+2\mu P_{0} &= \mu P_{2}+\mu P_{0} \\
+2\mu P_{0} - \mu P_{0} &= \mu P_{2} \\
+\mu P_{0} &= \mu P_{2} \\
+P_{0} &= P_{2}
+\end{aligned}$$
+
+Because the probabilities must sum up to 1,
+
+$$\begin{aligned} \sum_{j=0}^{n} P_{j} &=1 \\
+P_{0}+P_{1}+P_{2}+...+P_{n}&=1 \\
+P_{0}+P_{0}+P_{0}+...+P_{0}&=1 \\
+(n+1)P_{0}&=1 \\
+P_{0}&=\frac{1}{(n+1)}
+\end{aligned}$$
+
+The proportion of time that $j$ customers are at server 1 is
+
+$$\begin{aligned}P_{j}=\frac{1}{(n+1)};  &&j=0,1,...,n \end{aligned}$$
+
+\newpage
+
+
+## 8-30
+
+**For the tandem queue model verify that**
+$$P_{n,m}=\left(\frac{\lambda}{\mu_{1}} \right)^n\left(\frac{1-\lambda}{\mu_{1}}\right) \left(\frac{\lambda}{\mu_{2}}\right)^m \left(\frac{1-\mu}{\mu_{2}} \right) $$
+**satisfies the Balance Equation.**
+
+We have to verify that:
+
+$$(\lambda+\mu_{1}+\mu_{2})P_{n,m}=\mu_{2} P_{n,m+1}+\mu_{1} P_{n+1,m-1}-\lambda P_{n-1,m}$$ 
+
+The left hand side is:
+
+$$(\lambda+\mu_{1}+\mu_{2})\left[ \left(\frac{\lambda}{\mu_{1}} \right)^n\left(\frac{1-\lambda}{\mu_{1}}\right) \left(\frac{\lambda}{\mu_{2}}\right)^m \left(\frac{1-\mu}{\mu_{2}} \right) \right]$$
+
+The right hand side is:
+
+$$\begin{aligned}(\lambda+\mu_{1}+\mu_{2})\left[ \left(\frac{\lambda}{\mu_{1}} \right)^n\left(\frac{1-\lambda}{\mu_{1}}\right) \left(\frac{\lambda}{\mu_{2}}\right)^m \left(\frac{1-\mu}{\mu_{2}} \right) \right] \\
++ \mu_{2}\left[ \left(\frac{\lambda}{\mu_{1}} \right)^{n+1}\left(\frac{1-\lambda}{\mu_{1}}\right) \left(\frac{\lambda}{\mu_{2}}\right)^{m-1} \left(\frac{1-\mu}{\mu_{2}} \right) \right] \\
+- \lambda \left[ \left(\frac{\lambda}{\mu_{1}} \right)^{n-1}\left(\frac{1-\lambda}{\mu_{1}}\right) \left(\frac{\lambda}{\mu_{2}}\right)^{m} \left(\frac{1-\mu}{\mu_{2}} \right) \right]\end{aligned}$$
+
+$$\begin{aligned}&=\left[ \left(\frac{\lambda}{\mu_{1}} \right)^{n}\left(1-\frac{\lambda}{\mu_{1}}\right) \left(\frac{\lambda}{\mu_{2}}\right)^{m} \left(1-\frac{\lambda}{\mu_{2}} \right) \right] \left\{\mu_2\left(\frac{\lambda}{\mu_2}\right) + \mu_{1}\left(\frac{\lambda}{\mu_{1}}\right)/\left(\frac{\lambda}{\mu_{2}}\right)-\lambda\left(\frac{\lambda}{\mu_{1}}\right)^{-1}\right\} \\
+&=\left(\frac{\lambda}{\mu_{1}}\right)^{n}\left[1-\frac{\lambda}{\mu_{1}}\right]\left[\frac{\lambda}{\mu_{2}}\right]^{m}\left(\lambda-\frac{\lambda}{\mu_{2}}\right)(\lambda+\mu_{2}+\mu_{1}) \\
+&=(\lambda+\mu_{1}+\mu_{2})P_{n,m}
+\end{aligned}$$
+
+Therefore, the equations are balanced.
+
+\newpage
+
+
+## 8-50
+
+In the $M/M/k$ system,
+
+**(a) what is the probability that a customer will have to wait in queue?**
+
+$$P(n...k)=\sum_{n=k}^{\infty}P_{n}=\sum_{n=k}^{\infty}\frac{\left(\frac{\lambda}{\mu}\right)^{n}}{k!k^{n-k}}P_{\sigma} $$
+
+Put $N=k$:
+
+$$\frac{P_{\sigma}\left(\frac{\lambda}{\mu}\right)^{k}}{k!}\sum_{j=1}^{\infty}P^{j}=P_{\sigma}\frac{\left(\frac{\lambda}{\mu}\right)^{k}}{k!(1-p)}$$
+
+Where $P=\frac{\lambda}{s\mu}$
+
+$$P(n...k)=\frac{\mu\left(\frac{\lambda}{\mu}\right)^{k}P_{0}}{(k-1)!(k_{\mu}-\lambda)}$$
+
+**(b) determine $L$ and $W$.**
+
+First we find $L$:
+
+$$\begin{aligned}L_{0}&=\sum_{n=k}^{\infty}P_{n},&\text {putting:} &&n-k=j \\
+&=\sum_{n=k}^{\infty}J P_{k+j} \\
+&=\sum_{n=k}^{\infty}J\frac{\left(\frac{\lambda}{mu}\right)^{k+j}}{k!k^{j}}P_{\sigma}\\
+&=\sum_{n=k}^{\infty}J\left(\frac{\lambda}{\mu}\right)^{k}\frac{1}{k!}\left(\frac{\lambda}{\mu k}\right)^{j}P_{0} \\
+&=\left(\frac{\lambda}{\mu}\right)^{k}\frac{1}{k!}P_{\sigma}\sum_{j=0}^{\infty}jP^{j} &\left[P=\frac{\lambda}{\mu k}\right] \\
+&=\left(\frac{\lambda}{\mu}\right)^{k}\frac{1}{k!}P_{\sigma}\sum_{j=0}^{\infty}jP(JP^{j-1a}) \\
+&=\left(\frac{\lambda}{\mu}\right)^{k}\frac{1}{k!}P_{\sigma}P\left[\frac{d}{dp}[1+P+P^{2}+...+P^{n}]\right] \\
+&=\left(\frac{\lambda}{\mu}\right)^{k}\frac{1}{k!}P_{\sigma}P\frac{d}{dp}\left[\frac{1}{1-p}\right] \\
+&=\left(\frac{\lambda}{\mu}\right)^{k}\frac{1}{k!}P_{\sigma}P\frac{1}{(1-p)^{2}}\end{aligned}$$
+
+$$\begin{aligned}L_{0}&=\left(\frac{\lambda}{\mu}\right)^{k}\frac{1}{k!}P_{0}p\frac{1}{(1-p)^{2}} \\
+&=\frac{p}{k!}\frac{(KP)^{k}}{(1-p)^{2}}P_{n} \\
+&=\left[\lambda\mu\left(\frac{\lambda}{\mu}\right)^{k}/(k-1)!(k\mu-\lambda)^{2}\right]P_{\sigma} \\
+L-L_{0}&=\lambda_{a}W &&\text{Little Formula} \\
+&L-\frac{\lambda\mu}{(k-1)!}\frac{\left(\frac{\lambda}{\mu}\right)^{k}}{(k\mu-\lambda)^{2}}P_{\sigma}+\frac{\lambda}{\mu}
+\end{aligned}$$
+
+Then we can find $W$:
+
+$$\begin{aligned}W_{0}&=\frac{L_{0}}{\lambda} \\
+&=\left(\frac{\lambda}{\mu}\right)^{k}\frac{1}{k\mu(1-p)^{2})}P_{\sigma} \\
+W &= W_{0}+\frac{1}{\mu} \\
+W&=\frac{\left(\frac{\lambda}{\mu}\right)^{k}}{k!}\frac{1}{k_\mu(1-p)^{2}}P_{\sigma}+\frac{1}{\mu}
+\end{aligned}$$
+
+
+
+
+

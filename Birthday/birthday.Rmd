@@ -1,0 +1,68 @@
+---
+title: 'Computation: Three Birthday Problem'
+author: "Austin Pesina"
+date: "6/4/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+```
+
+## What is the probability that three or more people have a common birthday?
+
+
+Let $k$ be the number of people. Exclude February 29 and assume the other 365 days are equally likely. Assume independence of births.
+
+Let $k=365$.
+
+$P(no match) = \frac{365*364*363*...*(365-k+1)}{365^k}$
+
+$P(match) = {k\choose3}$
+
+The probability of multiple people sharing a birthday will depend on the number of people in the room. R has a built in function under the `stats` library called `pbirthday` that we will use to compute the probability of coincidences.
+
+Note: This function uses $n$ instead of $k$. It also allows us to change the number of coincidences.
+
+```{r}
+x <- seq(0, 300, by = 25)
+for (i in x) 
+  
+print(paste0(pbirthday(i, coincident = 3)), sep = "")
+
+pbirthday(88, coincident = 3)
+```
+
+By using a for loop, we see that when $k = 75$, our probability of 3 people sharing a birthday is $36.4\%$. When we increase to $k=100$, our probability jumps up to $63.9\%$. When $k=88$, we get our first value over $50\%$.
+
+```{r}
+a <- pbirthday(0, coincident = 3)
+b <- pbirthday(50, coincident = 3)
+c <- pbirthday(100, coincident = 3)
+d <- pbirthday(150, coincident = 3)
+e <- pbirthday(200, coincident = 3)
+f <- pbirthday(250, coincident = 3)
+g <- pbirthday(300, coincident = 3)
+
+tab <- matrix(c(0, 50, 100, 150, 200, 250, 300, a, b, c, d, e, f, g), ncol = 2, byrow = F)
+tab
+
+```
+
+
+```{r}
+birthdays <- seq(0, 300, by = 50)
+prob <- c(a,b,c,d,e,f,g)
+df <- data.frame(birthdays, prob)
+
+ggplot(data = df) +
+         geom_line(mapping = aes(x = birthdays, y = prob))
+```
+
+As we can see, once we have $k=200$, we have an almost 100% probability of having 3 people with the same birthday.

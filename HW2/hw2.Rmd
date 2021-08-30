@@ -1,0 +1,200 @@
+---
+title: "HW 2"
+author: "Austin Pesina"
+date: "6/8/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Homework 2
+
+## 4-4 ##
+
+**Consider a process ${X_n, n=0, 1, ...}$, which takes on the vales 0, 1, or 2.**
+
+**Suppose**
+
+$$P\{X_{n+1}=j|X_n=i, X_{n-1}=i_{n-1},...,X_0=i_0\}$$
+
+$$= \begin{cases} P_{ij}^{I} & \text{when n is even} \\
+P_{ij}^{II}         & \text{when n is odd}\end{cases}$$
+
+**where $\sum_{j=0}^{2}P_{ij}^{I}=\sum_{ij}^{II}=1, i=0, 1, 2$. Is $\{X_n,n \ge 0\}$ a Markov chain? If not, then show how, by enlarging the state space, we may transform it into a Markov chain.**
+
+The set ${X_n, n=0,1,...}$ is not a Markov chain because there are infinite values of $n$. It can be transformed into a Markov chain by assuming the state space is $S=\{0,1,2,\bar{0},\bar{1},\bar{2}\}$, where $i(\bar{i})$ signifies that the present value is $i$ and whether the present day is even or odd.
+
+\newpage
+
+## 4-20 ##
+
+**A transition probability matrix P is said to be doubly stochastic if the sum over each column equals one; that is,**
+
+$$\sum_iP_{ij}=1, \text{for all j} $$
+
+**If such a chain is irreducible and aperiodic and consists of $M+1$ states $0,1,...,M$, show that the long-run proportions are given by**
+
+If $\sum_{i=0}^{m}P_{ij}=1$ for all $j$, then $r_j=\frac{1}{(M+1)}$ satisfies $r_j=\sum_{i=0}^{m}r_iP_{ij}, \sum_0^{m}r_j=1$.
+
+Therefore, by uniqueness, these are the limiting probabilities.
+
+\newpage
+
+## 5-9 ##
+
+**Machine 1 is currently working. Machine 2 will be put in use at a time $t$ from now. If the lifetime of the machine $i$ is exponential with rate $\lambda_i$, $i=1,2$, what is the probability that machine 1 is the first machine to fail?**
+
+$$\begin{aligned}P(\text{Machine 1 Fails First})&=[P(\text{Machine 1 Fails First}|T_1<t)P(T_1<t)+P(\text{Machine 1 fails first}|T_1>t)P(T_1>t)] \\
+&=P(T_1<t)+P(T_1<T_x|T_1>t)P(T_1>t)P(T_1>t) \\
+&=1-e^{-\lambda_1t}+\frac{\lambda_1}{\lambda_1+\lambda_2}e^{-\lambda_1t}\end{aligned}$$
+
+Therefore, the probability that machine 1 fails first is $$1-e^{-\lambda_1t}+e^{-\lambda_1t}(\frac{\lambda_1}{\lambda_1+\lambda_2})$$
+
+\newpage
+
+## 5-20 ##
+
+Consider a two-server system in which a customer is served first by server 1, then by server 2, and then departs. The service times at server i are exponential random variables with rates $\mu_i,i=1,2$. When you arrive, you find server 1 free and two customers at server 2-customer A in service and customer B waiting in line.
+
+Service time of server 1 is $T_1 ~ Exp(\mu_1)$.
+
+Service time of server 2 is $T_2 ~ Exp(\mu_2)$
+
+**(a) Find $P_A$, the probability that A is still in service when you move over to server 2.**
+
+$$\begin{aligned}P_A&=P(\text{A Is Still In Service When Moving To Server 2}) \\
+&=P(T_2>T_1) \\ 
+&=P(T_1<T_2) \\ 
+&=\frac{\mu_1}{\mu_1+_mu_2}\end{aligned}$$
+
+**(b) Find $P_B$, the probability that B is still in the system when you move over to server 2.**
+
+$$\begin{aligned}P_B&=P(\text{B Is Still In Service When Moving To Server 2}) \\ 
+&=P(\text{A Is Completed and B Is In Service When Moving To Server 2}) \\ 
+&=P(T_2<T_1)P(\text{B Is In Service When Moving To Server 2}) \\ 
+&=[P(T_2<T_1)]*[P(T_2>T_1)] \\ 
+&=\frac{\mu_2}{\mu_1+\mu_2}*\frac{\mu_1}{\mu_1+\mu_2} \\ 
+&=\frac{\mu_1\mu_2}{(\mu_1+\mu_2)^2}\end{aligned}$$
+
+Therefor, the probability that B is still in the system when moving over to server 2 is $$P_B=\frac{\mu_1}{\mu_1+\mu_2}+\frac{\mu_1\mu_2}{(\mu_1+\mu_2)^{2}}$$
+
+**(c) Find $E[T]$, where $T$ is the time that you spend in the system. Hint: Write $T=S_1+S_2+W_A+W_B$ where $S_i$ is your service time at server $i$, $W_A$ is the amount of time you wait in queue while $A$ is being served, and $W_B$ is the amount of time you wait in queue while $B$ is being served.**
+
+$T=S_1+S_2+W_A+W_B$, where $S_1$, $W_A$, and $W_B$ are the time waiting in queue A and queue B for service.
+
+$$E(T)=E(S_1)+E(S_2)+E(W_A)+E(W_B)$$
+
+The service times at server $i$ are exponential random variables with parameters $\mu_1$. Therefore,
+
+$$\begin{aligned}&E(S_1)=\frac{1}{\mu_1} \\ &E(S_2)=\frac{1}{\mu_2} \\ &E(W_A)=\frac{1}{\mu_2}\left(\frac{\mu_1}{\mu_1+\mu_2}\right)\end{aligned}$$
+
+Similarly,$$E(W_B)=\frac{1}{\mu_2} \left( \frac{\mu_1}{\mu_1+\mu_2}+\frac{\mu_1}{(\mu_1+\mu_2)^2}\right)$$
+
+\newpage
+
+## 5-33 ##
+
+Let $X$ and $Y$ be independent exponential random variables with respective rates $\lambda$ and $\mu$.
+
+**(a) Argue that, conditional on $X>Y$, the random variables min$(x,Y)$ and $X-Y$ are independent.**
+
+Let $U=$Min$(X,Y)$.
+
+$$\begin{aligned}F_U(u)&=P[U\le u] \\ 
+&=P[min(X,Y)\le u] \\ &=1-P[min(X,Y)\le u] \\ 
+&=1-P[X>u, Y>u] \\ 
+&=1-P[X>u]*P[Y>u] \\ 
+&=1-p(X>u)*P[Y>u] \\ 
+&= 1-e^{-\lambda u}e^{-\mu u} \\ 
+f(u) &=(\lambda+\mu)e^{-(\lambda+\mu)u}I_{(0,\infty)}(\mu)\beta\end{aligned}$$
+
+$$V=X-Y$$
+
+$$\begin{aligned}F_V(u)&=P[X-Y\le u] \\
+&=P[X\le u+y] \\
+&=\int_0^{\infty} P[X \le u+Y|Y=y]f_y(y)dy \\ 
+&= \int_{y=0}^{\infty} \int_{x=0}^{u+y} f_x(x) dx f_y(y)dy \\ 
+&=1-\frac{\mu}{\lambda+\mu}e^{-\lambda u} \\ 
+f_u(u) &=\frac{\lambda \mu}{\lambda + \mu}e^{-\lambda u} \\ 
+& X \sim Exp(\lambda) ; Y\sim Exp(\mu) \\ 
+& u=min(xy)|X>y=Y\end{aligned}$$
+
+$V=X-\frac{Y}{X}>Y;$ for joint distribution.
+
+$$|J| = \begin{vmatrix}1 & 1\\ 1 & 0\end{vmatrix} = 1$$  
+$$f_{uv}(u,v)=\lambda\mu e^{-(\lambda+\mu)u}e^{-\lambda v}$$
+
+$U=min(X,Y)|X>Y$ and $u=X-Y|X>Y$
+$f_{uv}(u,v)=f_u(u)f_v(u)$ therefore, both are independent.
+
+**(b) Use part (a) to conclude that for any positive constant c**
+
+$$\begin{aligned} & E[min(X,Y|X>Y+c]=E[min(X,Y)|X>Y]      \\ 
+&=E[min(X,Y)] \\ 
+&=\int_0^{\infty} u(\lambda + \mu)^{-(\lambda + \mu)u} du \\ 
+&=\frac{1}{\lambda+\mu} && \text{(from equation 1)}\end{aligned}$$
+
+
+**(c) Give a verbal explanation of why min$(X,Y)$ and $X-Y$ are (unconditionally) independent.**
+
+min$(x,y)$ and $X-Y$ are conditionally independent because in the case of an exponential distribution and x and y are independent, the minimum of those two random variables are independent of any operations between these two random variables.
+
+\newpage
+
+## 5-46 ##
+
+**Let ${N(t), t \ge 0}$ be a Poisson process with rate $\lambda$ that is independent of the sequence $X_1, X_2,...$ of independent and identically distributed random variables with mean $/mu$ and variance $\sigma^{2}$. Find**
+
+$$Cov\left(N(t),\sum_{i=1}^{N(t)}X_i \right)$$
+
+A poisson process with rate $\lambda$ is independent of the sequence $X_1, X_2, ..., X_n$ of independent and identically distributed random variables with mean $\mu$ and variance $\sigma^{2}$
+
+$$Cov\left(N(t),\sum_{i=1}^{N(t)}X_i \right)=E\left(N(t)*\sum_{i-1}^{N(t)}X_i\right)-E(N(t))*E\left(\sum_{i=1}^{N(t)}X_i \right)$$
+
+$$E\left(\sum_{i-1}^{N(t)}\frac{X_i}{N(t)}=k \right)= E\left(\sum_{i-1}^{N(t)}X_i\right)P(N(t)=K) $$ 
+$$=k \mu \frac{e^{-\lambda t}(\lambda t)^k}{k!}$$
+
+$$\begin{aligned} &= \sum_{p=0}^{\infty}k\mu *\frac{e^{-\lambda t}(\lambda t)^k}{k!} \\ 
+&= \mu \lambda t \\ 
+&E\left(N(t)\sum_{i=1}^{N(t)} \frac{X_i}{N(t)}=K \right)= E\left(K\sum_{i=1}^{N(t)}X_i \right) P(N(t)=K) \\ 
+&=kk\mu P(NH)=k \\ &=k^{2}\mu \frac{e^{-\lambda t}}{k!}(\lambda t)^{k} \\ 
+&E\left(N(t)\sum_{i=1}^{N(t)}X_i \right)=E\left(E\left(N(t)\sum_{i=1}^{N(t)}\frac{X_i}{N(t)}=k \right)\right) \\ &=\sum_{k=0}^{\infty}k^{2}\mu \frac{e^{-\lambda t}}{k!}(\lambda t)^{k} \\ 
+&=\mu(\lambda^{2} t^{2}+\lambda t)\end{aligned}$$
+
+Therefore 
+
+$$\begin{aligned} & Cov\left(N(t),\sum_{i=1}^{N(t)}X_i \right)=E\left(N(t)*\sum_{i-1}^{N(t)}X_i\right)-E(N(t))*E\left(\sum_{i=1}^{N(t)}X_i \right) \\ 
+&= \mu(\lambda^{2}t^{2}+\lambda t)-\lambda t \mu \lambda t \\
+&= \mu\lambda t\end{aligned}$$
+
+Therefore $Cov\left(N(t),\sum_{i=1}^{N(t)}X_i \right)=\mu\lambda t$
+
+\newpage
+
+## 5-73 ##
+
+Shocks occur according to a Poisson process with rate $\lambda$, and each shock independently causes a certain system to fail with probability $p$. Let $T$ denote the time at which the system fails and let $N$ denote the number of shocks that it takes.
+
+**(a) Find the conditional distribution of $T$ given that $N=n$.**
+
+$$P(T=t|N=n)=\lambda e^{-\lambda t}\frac{(\lambda t)^{n-1}}{(n-1)!}, t\ge 0 $$
+
+**(b) Calculate the conditional distribution of $N$, give that $T=t$, and notice it is distributed as 1 plus a Poisson random variable with mean $\lambda(1-p)t$.**
+
+$$\begin{aligned} P(N(t)=n|T=t)&=\frac{P(T=t|N=n)P(N=n)}{P(T=t)} \\ 
+&= C_1\lambda e^{-\lambda t}\frac{(\lambda t)^{n-1}}{(n-1)!}p(1-p)^{n-1} \\ 
+&=C_2\frac{(\lambda(1-p)t)^{n-1}}{(n-1)!}\end{aligned}$$
+
+The distribution looks like a Poisson process with the parameter $\lambda(1-p)$. For the probabilities to add up to 1, $C_2=e^{-\lambda(1-p)t}$. Therefore,
+
+$$\begin{aligned} &P(N(t)=n|T=t)=e^{-\lambda(1-p)t}\frac{(\lambda(1-p)t)^{n-1}}{(n-1)!}\end{aligned}$$
+
+**(c) Explain how the result in part (b) could have been obtained without any calculations.**
+
+Because the events are broken into two independent classes, they each have the following Poisson distribution rate $\lambda p$ and $\lambda(1-p)$:
+
+$$\begin{aligned} P_{N|T}(n,t) &= P(N(t)=n|T=t) \\ 
+&=P(N_1(t)+N_2(t)=n|T=t) \\ &= P(1+N_2(t)=n) \\ 
+&= P(N_2(t)=n-1) \\ 
+&=\frac{e^{-\lambda(1-p)t}((1-p)\lambda t)^{n-1}}{(n-1)!}\end{aligned}$$
